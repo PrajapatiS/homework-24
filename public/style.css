@@ -1,0 +1,15 @@
+.bd {
+  background-color: orange; }
+
+td {
+  width: 10px;
+  height: 10px;
+  border: solid;
+  border-color: black;
+  border-width: 1px; }
+
+td.taxi {
+  background-color: darkblue; }
+
+td.passenger {
+  background-color: green; }

@@ -1,0 +1,50 @@
+
+<!doctype html>
+<html>
+    <head>
+        <script src="app.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <script type="x-ampersand-template" id="coordinate-template">
+             <section>
+                <h1>Player Location</h1>
+                <P id="page">(0,0)</P>
+                <p>Player Start Location</p>
+                <p class="x-coordinate"></p>
+                <p class= "y-coordinate"></p>
+                <p class="v-fuel">Fuel</p>
+            </section>
+         </script>
+         <script type="x-ampersand-template" id="passenger-template">
+             <section>
+                <h1>passenger details</h1>
+               <ul>
+                <li>
+                <p class='name'></p>
+                <p class='occupation'></p>
+                <p class='status'></p> 
+                </li>
+            </ul>
+             </section>
+         </script>
+
+    
+    </head>
+    <body class="bd">
+        <h2>Crazy Taxi Game</h2>
+       <main>
+            
+       </main>
+       <section id="view-passenger"></section>
+        <section>
+            <button id="b-up">Up</button>
+            <button id="b-down">Down</button>
+            <button id="b-left">Left</button>
+            <button id="b-right">Right</button>
+        </section>
+       <section>
+           <table id="grid"></table>
+          
+       
+        </section> 
+    </body>
+</html>
