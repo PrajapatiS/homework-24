@@ -8,23 +8,38 @@
              <section>
                 <h1>Player Location</h1>
                 <P id="page">(0,0)</P>
-                <p>Player Start Location</p>
+               <p>Taxi Location</p> 
                 <p class="x-coordinate"></p>
                 <p class= "y-coordinate"></p>
                 <p class="v-fuel">Fuel</p>
             </section>
          </script>
          <script type="x-ampersand-template" id="passenger-template">
-             <section>
-                <h1>passenger details</h1>
-               <ul>
-                <li>
-                <p class='name'></p>
-                <p class='occupation'></p>
-                <p class='status'></p> 
+               <li>
+                <p class="name"></p>
+                <p class="occupation"></p>
+                <p class="status"></p> 
                 </li>
-            </ul>
+         </script>
+         <script type="x-ampersand-template" id="passengers-template">
+             <section>
+                <h1>All Passenger Details</h1>
+                <ul></ul>
+            </section> 
+        </script>
+         <script type="x-ampersand-template" id="game-template">
+             <section>
+            <h2>Start Game</h2>
+             <button id="btn_hyb">Hybrid</button>
+             <button id="btn_lux">Luxury</button>
              </section>
+         </script>
+         <script type="x-ampersand-template" id="endgame-template">
+            <section>
+              <h2>Display final score</h2>
+              <p>game over</P>
+              <p>Total score: $ <span class="fares"></span></p>
+              </section>
          </script>
 
     
@@ -34,7 +49,9 @@
        <main>
             
        </main>
-       <section id="view-passenger"></section>
+       <section id="view-passengers"></section>
+       <section id="view-gamestart"></section>
+       <section id="view-endgame"></section>
         <section>
             <button id="b-up">Up</button>
             <button id="b-down">Down</button>

@@ -10,9 +10,10 @@ module.exports=View.extend({
       
 
   },
-  render:function(){
-      this.renderWithTemplate();
-  },
+  
+//   render:function(){
+//       this.renderWithTemplate();
+//   },
 
 });
 

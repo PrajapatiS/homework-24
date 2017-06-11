@@ -1,5 +1,5 @@
 let State=require('ampersand-state');
-
+let passengerList=[];
 module.exports=State.extend({
     prop:{
         name: 'string',
@@ -17,6 +17,15 @@ ShowPassengerLocation :function(x,y){
   
 },
 
+// createpassenger: function(){
+//     // this.passengerList=[
+//     //     {name:'Donald' , occupation: 'service',  x: 8, y: 5 },
+//     //     {name:'hope' , occupation: 'service',  x: 14, y: 8 },
+//     //     {name:'Don' , occupation: 'service',  x: 9, y: 15 },
+//     // ];
+//  return this.passengerList;   
+    
+//  },
 
 });
 

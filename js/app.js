@@ -7,8 +7,10 @@ window.addEventListener('load', function(){
 
     let TaxiModel= require('./models/crazytaxi');
     let TaxiView= require('./views/crazytaxi');
-    let Passenger= require('./models/passenger');
-    let PassView= require('./views/passenger');
+    let Passengers= require('./models/passengers');
+    let PassView= require('./views/passengers');
+    let StartView=require('./views/start');
+    let EndGame= require('./views/endgame');
     
     let taximodel= new TaxiModel();
         taximodel.x= 10;
@@ -22,40 +24,44 @@ window.addEventListener('load', function(){
     });
 
 
- let m_Pass= new Passenger();
-        m_Pass.occupation= 'service';
-        m_Pass.status= 'waiting';
-        m_Pass.name='zzzzz';
+    let m_Pass= new Passengers();
+    m_Pass.createpassenger();
+    
 
     let PView= new PassView({
-     el: document.querySelector('view-passenger'),
-     model: m_Pass,
+        el: document.querySelector('#view-passengers'),
+        collection: m_Pass,
     });
 
+    let g_start= new StartView({
+    el:document.querySelector('#view-gamestart'),
+     model:taximodel,
+   });
+
+   let g_end= new EndGame({
+    el:document.querySelector('#view-endgame'),
+     model:taximodel,
+   });
     
     taxiview.render();
     PView.render();
+    g_start.render();
+    g_end.render();
 
 
     taximodel.ShowGrid();
     taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
 
-//passenger() pick up all passenger
-   let passengerList=[
-        {name:'Donald' , occupation: 'service',  x: 8, y: 5 },
-        {name:'hope' , occupation: 'service',  x: 14, y: 8 },
-        {name:'Don' , occupation: 'service',  x: 9, y: 15 },
-    ];
+// Map passenger in grid
+     
     
-    for(let i=0; i<passengerList.length; i++){
-            console.log(passengerList[i].x);
-            let pass= new Passenger();
-            pass.x=passengerList[i].x;
-            pass.y=passengerList[i].y;
-         pass.ShowPassengerLocation(pass.x, pass.y);
- 
-
-        }
+    for(let i=0; i<m_Pass.length; i++){
+            console.log(m_Pass);
+    //         let pass= new Passenger();
+    //          pass.x=passengerList[i].x;
+    //         pass.y=passengerList[i].y;
+    //      pass.ShowPassengerLocation(pass.x, pass.y);
+    }
 
     // showcoordinate(taximodel.x, taximodel.y);
 
