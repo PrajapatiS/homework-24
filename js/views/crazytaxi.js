@@ -11,6 +11,7 @@ bindings:{
     'model.x' : '.x-coordinate',
     'model.y' : '.y-coordinate',
     'model.fuel': '.v-fuel',
+    'model.TotalFare': '.d_fare',
 },
 
     render:function(){

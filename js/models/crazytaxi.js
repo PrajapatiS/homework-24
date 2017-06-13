@@ -7,7 +7,18 @@ module.exports= State.extend({
         x: 'number',
         y: 'number',
         fuel: 'number',
+        TotalFare:'number',
+
+        loss_fuel:'number',
+        t_fare: 'number',        
+
     },
+
+TaxiFare(){
+    
+  this.TotalFare  = this.TotalFare + this.t_fare;
+  console.log(this.TotalFare);
+},
 
 ShowPlayerLocation :function(x,y){
    let taxi= document.querySelector('.taxi');
@@ -72,17 +83,23 @@ Showcoordinate_right: function(){
 },
 
 
-pickUp :function(passengerList){
-    console.log(passengerList.length);
-       for(let i=0;i<passengerList.length; i++){
-         if(passengerList[i].x === this.x && passengerList[i].y=== this.y){
-             console.log('true');
-
-   let l_passenger = document.querySelectorAll('td')[this.y *20 + this.x];
-   l_passenger.classList.remove('passenger');
-         }
-         }
-// }
+pickUp :function(passLists){
+    let xValue = this.x;
+    let yValue = this.y;
+    let pickedup= false;
+     passLists.each(function(model){
+        if(model.x === xValue && model.y === yValue && model.status=='waiting'){
+            console.log('true');
+            model.status='picked_up';
+            let l_passenger = document.querySelectorAll('td')[yValue *20 + xValue];
+            l_passenger.classList.remove('passenger');
+            pickedup=true;
+     }
+     
+    });
+    if(pickedup== true){
+    this.TaxiFare();
+}
 }
 
 });

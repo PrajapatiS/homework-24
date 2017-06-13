@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* DOM file. */
 
- 
-
 
 window.addEventListener('load', function(){
 
@@ -12,13 +10,15 @@ window.addEventListener('load', function(){
     let PassView= require('./views/passengers');
     let StartView=require('./views/start');
     let EndGame= require('./views/endgame');
+    let Passenger= require('./models/passenger');
     
     let taximodel= new TaxiModel();
         taximodel.x= 10;
         taximodel.y= 10;
         taximodel.fuel=200;
-   
-
+        taximodel.t_fare=0;
+        taximodel.TotalFare=0;
+        
     let taxiview= new TaxiView({
      el: document.querySelector('main'),
      model: taximodel,
@@ -26,9 +26,8 @@ window.addEventListener('load', function(){
 
 
     let m_Pass= new Passengers();
-    m_Pass.createpassenger();
+    m_Pass.createpassenger(); 
     
-
     let PView= new PassView({
         el: document.querySelector('#view-passengers'),
         collection: m_Pass,
@@ -53,16 +52,17 @@ window.addEventListener('load', function(){
     taximodel.ShowGrid();
     taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
 
-// Map passenger in grid
-     
-    
-    for(let i=0; i<m_Pass.length; i++){
-            console.log(m_Pass);
-    //         let pass= new Passenger();
-    //          pass.x=passengerList[i].x;
-    //         pass.y=passengerList[i].y;
-    //      pass.ShowPassengerLocation(pass.x, pass.y);
-    }
+    // Map passenger in grid
+    m_Pass.each(function(model){
+        console.log('Show');
+        model.ShowPassengerLocation(model.x, model.y);
+    });
+   /* for(let i=0; i<passengerLists.length; i++){     
+            let pass= new Passenger();
+             pass.x=passengerLists[i].x;
+            pass.y=passengerLists[i].y;
+         pass.ShowPassengerLocation(pass.x, pass.y);
+    } */
 
     // showcoordinate(taximodel.x, taximodel.y);
 
@@ -70,7 +70,7 @@ window.addEventListener('load', function(){
     btnup.addEventListener('click',function(){
         taximodel.Showcoordinate_up();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
          //console.log(passengerList);
          
     });
@@ -79,25 +79,25 @@ window.addEventListener('load', function(){
     btndown.addEventListener('click',function(){
          taximodel.Showcoordinate_down();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
     });
 
      let btnleft = document.querySelector('#b-left');
     btnleft.addEventListener('click',function(){
          taximodel.Showcoordinate_left();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
     });
 
      let btnright = document.querySelector('#b-right');
     btnright.addEventListener('click',function(){
           taximodel.Showcoordinate_right();
           taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-          taximodel.pickUp(passengerList);
+          taximodel.pickUp(m_Pass);
     });
 
 });
-},{"./models/crazytaxi":2,"./models/passengers":4,"./views/crazytaxi":5,"./views/endgame":6,"./views/passengers":8,"./views/start":9}],2:[function(require,module,exports){
+},{"./models/crazytaxi":2,"./models/passenger":3,"./models/passengers":4,"./views/crazytaxi":5,"./views/endgame":6,"./views/passengers":8,"./views/start":9}],2:[function(require,module,exports){
 /* Crazy taxi model file */
 
 let State= require('ampersand-state');
@@ -107,7 +107,18 @@ module.exports= State.extend({
         x: 'number',
         y: 'number',
         fuel: 'number',
+        TotalFare:'number',
+
+        loss_fuel:'number',
+        t_fare: 'number',        
+
     },
+
+TaxiFare(){
+    
+  this.TotalFare  = this.TotalFare + this.t_fare;
+  console.log(this.TotalFare);
+},
 
 ShowPlayerLocation :function(x,y){
    let taxi= document.querySelector('.taxi');
@@ -172,17 +183,23 @@ Showcoordinate_right: function(){
 },
 
 
-pickUp :function(passengerList){
-    console.log(passengerList.length);
-       for(let i=0;i<passengerList.length; i++){
-         if(passengerList[i].x === this.x && passengerList[i].y=== this.y){
-             console.log('true');
-
-   let l_passenger = document.querySelectorAll('td')[this.y *20 + this.x];
-   l_passenger.classList.remove('passenger');
-         }
-         }
-// }
+pickUp :function(passLists){
+    let xValue = this.x;
+    let yValue = this.y;
+    let pickedup= false;
+     passLists.each(function(model){
+        if(model.x === xValue && model.y === yValue && model.status=='waiting'){
+            console.log('true');
+            model.status='picked_up';
+            let l_passenger = document.querySelectorAll('td')[yValue *20 + xValue];
+            l_passenger.classList.remove('passenger');
+            pickedup=true;
+     }
+     
+    });
+    if(pickedup== true){
+    this.TaxiFare();
+}
 }
 
 });
@@ -190,7 +207,7 @@ pickUp :function(passengerList){
 let State=require('ampersand-state');
 let passengerList=[];
 module.exports=State.extend({
-    prop:{
+    props:{
         name: 'string',
         occupation: 'string',
         status: 'string',
@@ -231,19 +248,28 @@ let passengerList=[
 module.exports= pCollection.extend({
 model:Passenger,
  
- createpassenger(){    
+ createpassenger(){ 
+        
     for(let i=0;i<passengerList.length; i++){       
         this.add(new Passenger({
         name:passengerList[i].name,
         occupation:passengerList[i].occupation,
         status:passengerList[i].status,
+        x:passengerList[i].x,
+        y:passengerList[i].y,
         }));
-        console.log(passengerList[i].name);
+        console.log(this);
        
     }
    //return passengerList;
- }
-
+ },
+ getPassengers(){
+     return passengerList;
+ },
+ status() {
+         return this.at(this.length - 1).status;
+           
+ },
 });
 },{"./passenger":3,"ampersand-collection":258}],5:[function(require,module,exports){
 /* Views file  */
@@ -259,6 +285,7 @@ bindings:{
     'model.x' : '.x-coordinate',
     'model.y' : '.y-coordinate',
     'model.fuel': '.v-fuel',
+    'model.TotalFare': '.d_fare',
 },
 
     render:function(){
@@ -327,6 +354,17 @@ events:{
      'click #btn_hyb' : 'passHybrid',
      'click #btn_lux' : 'passLuxury',
 },
+
+passHybrid(){
+    this.model.loss_fuel=1;
+    this.model.t_fare=10;
+    console.log('hello');
+},
+ passLuxury(){
+     this.model.loss_fuel=2;
+     this.model.t_fare=20;
+ },
+
  render:function(){
     this.renderWithTemplate();
 },

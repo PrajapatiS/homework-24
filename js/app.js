@@ -1,7 +1,5 @@
 /* DOM file. */
 
- 
-
 
 window.addEventListener('load', function(){
 
@@ -11,13 +9,15 @@ window.addEventListener('load', function(){
     let PassView= require('./views/passengers');
     let StartView=require('./views/start');
     let EndGame= require('./views/endgame');
+    let Passenger= require('./models/passenger');
     
     let taximodel= new TaxiModel();
         taximodel.x= 10;
         taximodel.y= 10;
         taximodel.fuel=200;
-   
-
+        taximodel.t_fare=0;
+        taximodel.TotalFare=0;
+        
     let taxiview= new TaxiView({
      el: document.querySelector('main'),
      model: taximodel,
@@ -25,9 +25,8 @@ window.addEventListener('load', function(){
 
 
     let m_Pass= new Passengers();
-    m_Pass.createpassenger();
+    m_Pass.createpassenger(); 
     
-
     let PView= new PassView({
         el: document.querySelector('#view-passengers'),
         collection: m_Pass,
@@ -52,16 +51,17 @@ window.addEventListener('load', function(){
     taximodel.ShowGrid();
     taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
 
-// Map passenger in grid
-     
-    
-    for(let i=0; i<m_Pass.length; i++){
-            console.log(m_Pass);
-    //         let pass= new Passenger();
-    //          pass.x=passengerList[i].x;
-    //         pass.y=passengerList[i].y;
-    //      pass.ShowPassengerLocation(pass.x, pass.y);
-    }
+    // Map passenger in grid
+    m_Pass.each(function(model){
+        console.log('Show');
+        model.ShowPassengerLocation(model.x, model.y);
+    });
+   /* for(let i=0; i<passengerLists.length; i++){     
+            let pass= new Passenger();
+             pass.x=passengerLists[i].x;
+            pass.y=passengerLists[i].y;
+         pass.ShowPassengerLocation(pass.x, pass.y);
+    } */
 
     // showcoordinate(taximodel.x, taximodel.y);
 
@@ -69,7 +69,7 @@ window.addEventListener('load', function(){
     btnup.addEventListener('click',function(){
         taximodel.Showcoordinate_up();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
          //console.log(passengerList);
          
     });
@@ -78,21 +78,21 @@ window.addEventListener('load', function(){
     btndown.addEventListener('click',function(){
          taximodel.Showcoordinate_down();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
     });
 
      let btnleft = document.querySelector('#b-left');
     btnleft.addEventListener('click',function(){
          taximodel.Showcoordinate_left();
          taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-         taximodel.pickUp(passengerList);
+         taximodel.pickUp(m_Pass);
     });
 
      let btnright = document.querySelector('#b-right');
     btnright.addEventListener('click',function(){
           taximodel.Showcoordinate_right();
           taximodel.ShowPlayerLocation(taximodel.x, taximodel.y);
-          taximodel.pickUp(passengerList);
+          taximodel.pickUp(m_Pass);
     });
 
 });

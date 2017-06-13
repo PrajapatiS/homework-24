@@ -8,19 +8,26 @@ let passengerList=[
 module.exports= pCollection.extend({
 model:Passenger,
  
- createpassenger(){    
+ createpassenger(){ 
+        
     for(let i=0;i<passengerList.length; i++){       
         this.add(new Passenger({
         name:passengerList[i].name,
         occupation:passengerList[i].occupation,
         status:passengerList[i].status,
+        x:passengerList[i].x,
+        y:passengerList[i].y,
         }));
-        console.log(passengerList[i].name);
+        console.log(this);
        
     }
    //return passengerList;
- }
-
- 
-
+ },
+ getPassengers(){
+     return passengerList;
+ },
+ status() {
+         return this.at(this.length - 1).status;
+           
+ },
 });

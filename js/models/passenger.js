@@ -1,7 +1,7 @@
 let State=require('ampersand-state');
 let passengerList=[];
 module.exports=State.extend({
-    prop:{
+    props:{
         name: 'string',
         occupation: 'string',
         status: 'string',
